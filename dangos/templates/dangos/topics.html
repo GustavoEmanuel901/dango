@@ -1,0 +1,15 @@
+{% extends "dangos/base.html" %}
+{% block content %}
+    <ul>
+        {% for topic in topics %}
+            <li>{{ topic }}</li>
+
+            {% empty %}
+                <p>Não há tópicos adicionados.</p>
+        {% endfor %}
+
+    </ul>
+
+
+{% endblock content %}
+
