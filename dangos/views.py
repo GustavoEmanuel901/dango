@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from . import views
 from .models import Topic, Entry
-from .forms import TopicForm
+from .forms import TopicForm, EntryForm
 from django.http import HttpResponseRedirect
 # Create your views here.
 
@@ -38,3 +38,23 @@ def new_topic(request):
     # Exibe um formulário em branco ou inválido.
     context = {'form': form}
     return render(request, 'dangos/new_topic.html', context)
+
+def new_entry(request, topic_id):
+    """Adiciona uma nova entrada para um tópico específico."""
+    topic = Topic.objects.get(id=topic_id)
+
+    if request.method != 'POST':
+        # Nenhum dado submetido; cria um formulário em branco.
+        form = EntryForm()
+    else:
+        # Dados submetidos; processa os dados.
+        form = EntryForm(data=request.POST)
+        if form.is_valid():
+            new_entry = form.save(commit=False)
+            new_entry.topic = topic
+            new_entry.save()
+            return HttpResponseRedirect(reverse('topic', args=[topic_id]))
+
+    # Exibe um formulário em branco ou inválido.
+    context = {'topic': topic, 'form': form}
+    return render(request, 'dangos/new_entry.html', context)
