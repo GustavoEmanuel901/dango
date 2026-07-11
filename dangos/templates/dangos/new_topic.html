@@ -1,0 +1,10 @@
+{% extends "dangos/base.html" %}
+{% block content %}
+
+    <form action="{% url 'new_topic' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Adicionar Tópico</button>
+    </form>
+
+{% endblock  %}
