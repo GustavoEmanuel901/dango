@@ -1,0 +1,12 @@
+{% extends "dangos/base.html" %}
+{% block content %}
+
+    <p> <a href="{% url 'topic' topic.id %}">{{ topic }}</a> </p>
+
+    <form action="{% url 'edit_entry' entry.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Salvar </button>
+    </form>
+
+{% endblock %}
