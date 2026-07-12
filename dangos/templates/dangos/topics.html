@@ -1,20 +1,21 @@
 {% extends "dangos/base.html" %}
 {% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Tópicos</h1>
+            <p class="text-muted mb-0">Organize seus assuntos de estudo em tópicos.</p>
+        </div>
+        <a class="btn btn-primary" href="{% url 'new_topic' %}">Adicionar Tópico</a>
+    </div>
 
-    <p>Tópicos: </p>
-    <ul>
-        {% for topic in topics %}
-            <li>
-                <a href="{% url 'topic' topic.id %}">{{ topic }}</a>
-            </li>
-
-            {% empty %}
-                <p>Não há tópicos adicionados.</p>
-        {% endfor %}
-
-    </ul>
-
-    <a href="{% url 'new_topic' %}">Adicionar Tópico</a>
-
+    {% if topics %}
+        <div class="list-group">
+            {% for topic in topics %}
+                <a href="{% url 'topic' topic.id %}" class="list-group-item list-group-item-action">{{ topic }}</a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-secondary">Não há tópicos adicionados.</div>
+    {% endif %}
 {% endblock content %}
 

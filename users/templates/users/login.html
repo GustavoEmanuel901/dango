@@ -1,10 +1,27 @@
 {% extends "dangos/base.html" %}
 
 {% block content %}
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Entrar</button>
-        <input type="hidden" name="next" value="{% url 'index' %}">
-    </form>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="h4 mb-4">Entrar</h1>
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block">{{ field.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                        <input type="hidden" name="next" value="{% url 'index' %}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

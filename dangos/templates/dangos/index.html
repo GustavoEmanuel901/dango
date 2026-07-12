@@ -1,5 +1,9 @@
 {% extends "dangos/base.html" %}
 
 {% block content %}
-    <p>Essa aplicação vai te ajudar a organizar seus estudos.</p>
+    <div class="bg-white rounded shadow-sm p-5">
+        <h1 class="display-6 mb-3">Organize seus estudos</h1>
+        <p class="lead">Essa aplicação vai te ajudar a organizar seus estudos.</p>
+        <a class="btn btn-primary btn-lg mt-3" href="{% url 'topics' %}">Ver tópicos</a>
+    </div>
 {% endblock content %}

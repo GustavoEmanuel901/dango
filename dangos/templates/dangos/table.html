@@ -1,0 +1,77 @@
+{% extends "dangos/base.html" %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Tabela de treino</h1>
+            <p class="text-muted mb-0">Clique nas colunas para mostrar ou ocultar informações.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle" id="studyTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tópico</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Entradas</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for topic in topics %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ topic.text }}</td>
+                                <td>{{ topic.date_added|date:"d/m/Y H:i" }}</td>
+                                <td>{{ topic.entry_set.count }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary" href="{% url 'topic' topic.id %}">Ver</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Nenhum tópico disponível.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <div class="btn-group" role="group" aria-label="Mostrar ou ocultar colunas">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-column="0">#</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-column="1">Tópico</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-column="2">Data</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-column="3">Entradas</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-column="4">Ações</button>
+                </div>
+                <p class="text-muted small mt-2">Use esses botões para treinar esconder/mostrar colunas da tabela.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('[data-column]');
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const index = parseInt(this.dataset.column, 10);
+                    const table = document.getElementById('studyTable');
+                    const visible = this.classList.toggle('active');
+                    this.classList.toggle('btn-secondary', visible);
+                    this.classList.toggle('btn-outline-secondary', !visible);
+                    table.querySelectorAll('tr').forEach(row => {
+                        const cell = row.children[index];
+                        if (cell) {
+                            cell.style.display = visible ? '' : 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock content %}

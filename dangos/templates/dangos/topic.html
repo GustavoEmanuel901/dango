@@ -1,24 +1,32 @@
 {% extends "dangos/base.html" %}
 
 {% block content %}
-    <p>Tópico: {{ topic }}</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-1">Tópico: {{ topic }}</h1>
+            <p class="text-muted mb-0">Veja suas anotações e mantenha o estudo organizado.</p>
+        </div>
+        <a class="btn btn-success" href="{% url 'new_entry' topic.id %}">Adicionar anotação</a>
+    </div>
 
-    <p>Anotações:</p>
-
-    <p><a href="{% url 'new_entry' topic.id %}">Adicione uma nova anotação</a></p>
-
-    <ul>
-        {% for entry in entries %}
-            <li>
-                <p>{{ entry.date_added | date:"M d, Y H:i" }}</p>    
-                <p>{{ entry.text | linebreaks }}</p>
-                <p><a href="{% url 'edit_entry' entry.id %}">Editar anotação</a></p>
-            </li>
-
-            {% empty %}
-                <p>Não há registros. </p>
-        {% endfor %}
-
-    </ul>
+    {% if entries %}
+        <div class="row g-3">
+            {% for entry in entries %}
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="text-muted small">{{ entry.date_added|date:"d/m/Y H:i" }}</span>
+                                <a href="{% url 'edit_entry' entry.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            </div>
+                            <p class="card-text">{{ entry.text|linebreaks }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Não há registros.</div>
+    {% endif %}
 
 {% endblock content %}

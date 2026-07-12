@@ -1,15 +1,23 @@
 {% extends "dangos/base.html" %}
 
 {% block content %}
-
-    <p> <a href="{% url 'topic' topic.id %}">{{ topic }}</a></p>
-
-    <p>Adicione uma nova anotação</p>
-
-    <form action="{% url 'new_entry' topic.id %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">Adicionar</button>
-    </form>
-
-{% endblock  %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="mb-4">
+                <a href="{% url 'topic' topic.id %}" class="text-decoration-none">&larr; Voltar para {{ topic }}</a>
+            </div>
+            <h1 class="h4 mb-4">Adicionar nova anotação</h1>
+            <form action="{% url 'new_entry' topic.id %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.text.label_tag }}
+                    {{ form.text }}
+                    {% if form.text.errors %}
+                        <div class="invalid-feedback d-block">{{ form.text.errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
