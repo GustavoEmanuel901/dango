@@ -4,18 +4,22 @@ from . import views
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
 
 def index(request):
     """Página principal do aplicativo Dango."""
     return render(request, 'dangos/index.html')
 
+@login_required
 def topics(request):
     """Exibe todos os tópicos."""
     topics = Topic.objects.order_by('date_added')
     context = {'topics': topics}
     return render(request, 'dangos/topics.html', context)
 
+@login_required
 def topic(request, topic_id):
     """Exibe um único tópico e todas as suas entradas."""
     topic = Topic.objects.get(id=topic_id)
@@ -23,6 +27,7 @@ def topic(request, topic_id):
     context = {'topic': topic, 'entries': entries}
     return render(request, 'dangos/topic.html', context)
 
+@login_required
 def new_topic(request):
     """Adiciona um novo tópico."""
     if request.method != 'POST':
@@ -39,6 +44,7 @@ def new_topic(request):
     context = {'form': form}
     return render(request, 'dangos/new_topic.html', context)
 
+@login_required
 def new_entry(request, topic_id):
     """Adiciona uma nova entrada para um tópico específico."""
     topic = Topic.objects.get(id=topic_id)
@@ -59,6 +65,7 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form}
     return render(request, 'dangos/new_entry.html', context)
 
+@login_required
 def edit_entry(request, entry_id):
     """Edita uma entrada existente."""
     entry = Entry.objects.get(id=entry_id)
