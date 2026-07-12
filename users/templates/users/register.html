@@ -1,10 +1,10 @@
 {% extends "dangos/base.html" %}
 
 {% block content %}
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'register' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Entrar</button>
+        <button type="submit">Registrar</button>
         <input type="hidden" name="next" value="{% url 'index' %}">
     </form>
 {% endblock %}
